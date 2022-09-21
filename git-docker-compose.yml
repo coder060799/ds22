@@ -1,0 +1,41 @@
+version "3.0"
+services:
+  web:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'gitlab.dig-skills.ga'
+    environment:
+      - GITLAB_REGISTRY_ENABLED=true
+      - GITLAB_REGISTRY_HOST=registry
+      - GITLAB_REGISTRY_PORT=443
+      - GITLAB_REGISTRY_API_URL=http://registry.dig-skills.ga:5000
+      - GITLAB_REGISTRY_KEY_PATH=/certs/registry.key
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.dig-skills.ga';
+        gitlab_rails['initial_root_password'] = 'P@ssw0rd';
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '/srv/gitlab/config:/etc/gitlab'
+      - '/srv/gitlab/logs:/var/log/gitlab'
+      - '/srv/gitlab/data:/var/opt/gitlab'
+      - '/srv/gitlab/certs:/certs'
+  registry:
+    image: registry
+    restart: always
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - '/srv/gitlab/registry:/registry'
+      - '/srv/gitlab/certs:/certs'
+    environment:
+      - REGISTRY_LOG_LEVEL=info
+      - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/registry
+      - REGISTRY_AUTH_TOKEN_REALM=https://gitlab.dig-skills.ga/jwt/auth
+      - REGISTRY_AUTH_TOKEN_SERVICE=container_registry
+      - REGISTRY_AUTH_TOKEN_ISSUER=gitlab-issuer
+      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/certs/registry.crt
+      - REGISTRY_STORAGE_DELETE_ENABLED=true

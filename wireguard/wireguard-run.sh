@@ -1,0 +1,24 @@
+docker run -it --cap-add NET_ADMIN -d --name wireguard-portal \
+-v /etc/wireguard/:/etc/wireguard/ \
+-v /app/wireguard-portal/data:/app/data \
+-p 8123:8123 \
+--network=host \
+--env MYVAR2=foo \
+--env WG_DEVICES=wgvpn \
+--env "WG_CONFIG_PATH=/etc/wireguard" \
+--env EXTERNAL_URL=http://wgvpn.dig-skills.ga \
+--env "WEBSITE_TITLE=WireGuard VPN" \
+--env "COMPANY_NAME=Test" \
+--env ADMIN_USER=admin@dig-skills.ga \
+--env ADMIN_PASS=P@ssw0rd \
+--env "MAIL_FROM=WireGuard PVN <noreply+wireguard@company.com>" \
+--env "EMAIL_HOST=10.10.10.10" \
+--env EMAIL_PORT=25 \
+--env LDAP_ENABLED=true \
+--env "LDAP_URL=ldap://10.10.10.10:389" \
+--env "LDAP_BASEDN=DC=dig-skills,DC=ga" \
+--env "LDAP_USER=admin@dig-skills.ga" \
+--env "LDAP_PASSWORD=P@ssw0rd" \
+--env "LDAP_ADMIN_GROUP=cn=admins,cn=groups,cn=accounts,dc=dig-skills,dc=ga" \
+--restart unless-stopped \
+h44z/wg-portal:latest
