@@ -5,16 +5,16 @@ services:
     ports:
       - "10051:10051"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro 
-      - /usr/lib/zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
-      - /usr/lib/zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
-      - /var/lib/zabbix/export:/var/lib/zabbix/export:rw
-      - /var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
-      - /var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
-      - /var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
-      - /var/lib/zabbix/mibs:/var/lib/zabbix/mibs:ro
-      - /var/lib/zabbix/snmptraps:/var/lib/zabbix/snmptraps:ro
+      - ./localtime:/etc/localtime:ro
+      - ./timezone:/etc/timezone:ro 
+      - ./zabbix/alertscripts:/usr/lib/zabbix/alertscripts:ro
+      - ./zabbix/externalscripts:/usr/lib/zabbix/externalscripts:ro
+      - ./zabbix/export:/var/lib/zabbix/export:rw
+      - ./zabbix/modules:/var/lib/zabbix/modules:ro
+      - ./zabbix/enc:/var/lib/zabbix/enc:ro
+      - ./zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
+      - ./zabbix/mibs:/var/lib/zabbix/mibs:ro
+      - .zabbix/snmptraps:/var/lib/zabbix/snmptraps:ro
     restart: always
     depends_on:
       - postgres-server
@@ -36,10 +36,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - /etc/ssl/nginx:/etc/ssl/nginx:ro
-      #- /usr/share/zabbix/nginx:/etc/nginx/nginx.conf.d/nginx.conf
-      - /usr/share/zabbix/modules/:/usr/share/zabbix/modules/:ro
+      - ./nginx.conf:/etc/nginx/http.d/nginx.conf
+      - ./zabbix/modules/:/usr/share/zabbix/modules/:ro
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      test: ["CMD", "curl", "-f", "https://localhost:443/"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -63,8 +63,8 @@ services:
     ports:
       - "10050:10050"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      - ./localtime:/etc/localtime:ro
+      - ./timezone:/etc/timezone:ro
       - /proc:/proc
       - /sys:/sys
       - /dev:/dev
@@ -81,7 +81,7 @@ services:
     ports:
       - "162:1162/udp"
     volumes:
-      - /var/lib/zabbix/snmptraps:/var/lib/zabbix/snmptraps:rw
+      - ./zabbix/snmptraps:/var/lib/zabbix/snmptraps:rw
     restart: always
     depends_on:
       - server
