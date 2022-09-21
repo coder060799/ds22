@@ -1,0 +1,17 @@
+version: '3.6'
+services:
+  wg-portal:
+    image: h44z/wg-portal:latest
+    container_name: wg-portal
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
+    volumes:
+      - /etc/wireguard:/etc/wireguard
+      - ./data:/app/data
+      - ./config.yml:/etc/wireguard/config.yml
+    ports:
+      - '8123:8123'
+    environment:
+      - CONFIG_FILE=/etc/wireguard/config.yml
