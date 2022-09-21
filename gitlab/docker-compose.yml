@@ -1,0 +1,42 @@
+version: '3'
+services:
+  gitlab:
+    image: hub.example.com/gitlab/gitlab-ce:latest
+    container_name: gitlab
+    hostname: gitlab
+    restart: always
+    volumes:
+      - ./config:/etc/gitlab
+      - ./log:/var/log/gitlab
+      - ./data:/var/opt/gitlab
+      - ./registry:/var/opt/registry
+      - ./CA.pem:/etc/CA.pem
+    ports:
+      - "443:443"
+      - "80:80"
+      - "2222:22"
+    environment:
+     GITLAB_OMNIBUS_CONFIG: |
+      letsencrypt['enable'] = false
+      gitlab_rails['backup_keep_time'] = 604800
+      gitlab_rails['gitlab_shell_ssh_port'] = 2222
+      gitlab_rails['registry_path'] = "/var/opt/registry"
+      gitlab_rails['packages_enabled'] = true
+      gitlab_rails['time_zone'] = 'Europe/Moscow'
+      nginx['redirect_http_to_https'] = true
+      external_url "https://gitlab.digital-skills.ga"
+      registry_external_url 'https://cr.digital-skills.ga'
+      gitlab_rails['ldap_enabled'] = true
+      gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
+        main:
+          label: 'ldap'
+          host: 'c-dc.digital-skills.ga'
+          port: 389
+          uid: 'uid'
+          encryption: 'plain'
+          bind_dn: 'uid=admin,cn=users,cn=compat,dc=digital-skills,dc=ga'
+          password: 'P@ssw0rd'
+          active_directory: false
+          base: 'cn=users,cn=accounts,dc=digital-skills,dc=ga'
+          user_filter: '(&(objectClass=*)(uid=%uid))'
+      EOS

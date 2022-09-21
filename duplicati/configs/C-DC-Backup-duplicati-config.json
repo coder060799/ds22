@@ -1,0 +1,95 @@
+{
+  "CreatedByVersion": "2.0.6.3",
+  "Schedule": {
+    "ID": 3,
+    "Tags": [
+      "ID=3"
+    ],
+    "Time": "2022-09-14T13:15:00Z",
+    "Repeat": "2h",
+    "LastRun": "2022-09-14T11:15:00Z",
+    "Rule": "AllowedWeekDays=Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",
+    "AllowedDays": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri",
+      "sat",
+      "sun"
+    ]
+  },
+  "Backup": {
+    "ID": "3",
+    "Name": "C-DC-Backup",
+    "Description": "Backup from Cloud DC with FreeIPA",
+    "Tags": [],
+    "TargetURL": "ssh://109.120.191.81:22//opt/backups?auth-username=debian&auth-password=P%40ssw0rd&ssh-fingerprint=ssh-ed25519%2032%207D%3A38%3AA1%3ACA%3A1A%3A74%3AC7%3A63%3A26%3A2E%3A33%3A6F%3AC1%3AF7%3AE1%3AAA",
+    "DBPath": "/root/.config/Duplicati/XQSREQMMLO.sqlite",
+    "Sources": [
+      "%HOME%",
+      "/app/",
+      "/etc/",
+      "/media/"
+    ],
+    "Settings": [
+      {
+        "Filter": "",
+        "Name": "encryption-module",
+        "Value": "aes",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "compression-module",
+        "Value": "zip",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "dblock-size",
+        "Value": "100MB",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "keep-time",
+        "Value": "4W",
+        "Argument": null
+      },
+      {
+        "Filter": "",
+        "Name": "passphrase",
+        "Value": "G@ccdjhl",
+        "Argument": null
+      }
+    ],
+    "Filters": [],
+    "Metadata": {
+      "LastBackupDate": "20220914T111500Z",
+      "BackupListCount": "1",
+      "TotalQuotaSpace": "0",
+      "FreeQuotaSpace": "0",
+      "AssignedQuotaSpace": "-1",
+      "TargetFilesSize": "1996535",
+      "TargetFilesCount": "3",
+      "TargetSizeString": "1,90 МБ",
+      "SourceFilesSize": "5894791",
+      "SourceFilesCount": "773",
+      "SourceSizeString": "5,62 МБ",
+      "LastBackupStarted": "20220914T111500Z",
+      "LastBackupFinished": "20220914T111505Z",
+      "LastBackupDuration": "00:00:05.8172540",
+      "LastCompactDuration": "00:00:00.0035310",
+      "LastCompactStarted": "20220914T111505Z",
+      "LastCompactFinished": "20220914T111505Z"
+    },
+    "IsTemporary": false
+  },
+  "DisplayNames": {
+    "%HOME%": "Home",
+    "/app/": "app",
+    "/etc/": "etc",
+    "/media/": "media"
+  }
+}
