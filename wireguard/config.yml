@@ -1,0 +1,25 @@
+core:
+  listeningAddress: :8123
+  externalUrl: http://vpn.digital-skills.ga
+  adminUser: admin@digital-skills.ga
+  adminPass: P@ssw0rd
+  editableKeys: true
+  createDefaultPeer: false
+  ldapEnabled: true
+  mailFrom: WireGuard VPN <noreply@test.com>
+ldap:
+  url: ldap://10.10.10.10:389
+  dn: DC=digital-skills,DC=ga
+  startTLS: false
+  user: uid=admin,cn=users,cn=compat,dc=digital-skills,dc=ga
+  pass: P@ssw0rd
+  adminGroup: uid=admins,cn=groups,cn=compat,dc=digital-skills,dc=ga
+database:
+  typ: sqlite
+  database: data/wg_portal.db
+wg:
+  devices:
+    - wgvpn
+  defaultDevice: wgvpn
+  configDirectory: /etc/wireguard
+  manageIPAddresses: true
